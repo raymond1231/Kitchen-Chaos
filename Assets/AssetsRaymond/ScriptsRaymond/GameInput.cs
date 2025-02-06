@@ -9,7 +9,7 @@ public class GameInput : MonoBehaviour
 
     private void Awake()
     {
-        PlayerInputActions playerInputActions = new PlayerInputActions();
+        playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
     }
 
@@ -19,7 +19,6 @@ public class GameInput : MonoBehaviour
 
         inputVector = inputVector.normalized;
 
-        Debug.Log(inputVector);
         return inputVector;
     }
 }
