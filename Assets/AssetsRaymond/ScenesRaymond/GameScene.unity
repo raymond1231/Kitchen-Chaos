@@ -12406,6 +12406,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeliveryCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 5138002391114930347, guid: 4aec34f2356c5004eb0f6a90c6103a18,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5966853917204113466, guid: 4aec34f2356c5004eb0f6a90c6103a18,
         type: 3}
       propertyPath: m_LocalPosition.x
