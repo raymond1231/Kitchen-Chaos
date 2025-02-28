@@ -59,6 +59,11 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
     private void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         HandleMovement();
         HandleInteractions();
     }
@@ -101,7 +106,7 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
             SetSelectedCounter(null);
         }
     }
- 
+    
     private void HandleMovement()
     {
         Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
@@ -111,7 +116,7 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         float moveDistance = moveSpeed * Time.deltaTime;
         float playerRadius = .7f;
         float playerHeight = 2f;
-        bool canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
+        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
 
         if (!canMove)
         {
