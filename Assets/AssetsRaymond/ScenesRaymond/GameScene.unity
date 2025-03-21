@@ -11938,6 +11938,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9683bcdf1cb2d6643b8359720023b834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kitchenObjectListSO: {fileID: 11400000, guid: 29648cb5de4cd9247bc159d939ab35d6,
+    type: 2}
 --- !u!4 &1379914784
 Transform:
   m_ObjectHideFlags: 0
