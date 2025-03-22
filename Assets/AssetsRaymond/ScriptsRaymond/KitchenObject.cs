@@ -11,7 +11,7 @@ public class KitchenObject : NetworkBehaviour
     private IKitchenObjectParent kitchenObjectParent;
     private FollowTransform followTransform;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         followTransform = GetComponent<FollowTransform>();
     }
@@ -23,7 +23,7 @@ public class KitchenObject : NetworkBehaviour
 
     public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
     {
-        SetKitchenObjectParentClientRpc(kitchenObjectParent.GetNetworkObject());
+        SetKitchenObjectParentServerRpc(kitchenObjectParent.GetNetworkObject());
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -62,8 +62,12 @@ public class KitchenObject : NetworkBehaviour
 
     public void DestroySelf()
     {
-        kitchenObjectParent.ClearKitchenObject();
         Destroy(gameObject);
+    }
+
+    public void ClearKitchenObjectOnParent()
+    {
+        kitchenObjectParent.ClearKitchenObject();
     }
 
     public bool TryGetPlate(out PlateKitchenObject plateKitchenObject)
@@ -83,5 +87,10 @@ public class KitchenObject : NetworkBehaviour
     public static void SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent kitchenObjectParent)
     {
         KitchenGameMultiplayer.Instance.SpawnKitchenObject(kitchenObjectSO, kitchenObjectParent);
+    }
+
+    public static void DestroyKitchenObject(KitchenObject kitchenObject)
+    {
+        KitchenGameMultiplayer.Instance.DestroyKitchenObject(kitchenObject);
     }
 }
