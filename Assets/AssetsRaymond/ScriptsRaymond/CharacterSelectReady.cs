@@ -1,18 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CharacterSelectReady : MonoBehaviour
+public class CharacterSelectReady : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public static CharacterSelectReady Instance { get; private set; } 
+    private Dictionary<ulong, bool> playerReadyDictionary;
+
+    private void Awake()
     {
-        
+        Instance = this;
+
+        playerReadyDictionary = new Dictionary<ulong, bool>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetPlayerReady()
     {
+        
+        SetPlayerReadyServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
+
+        bool allClientsReady = true;
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            if (!playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
+            {
+                // This player is NOT ready
+                allClientsReady = false;
+                break;
+            }
+        }
+
+        if (allClientsReady)
+        {
+            Loader.LoadNetwork(Loader.Scene.GameScene);
+        }
         
     }
 }
+ 
